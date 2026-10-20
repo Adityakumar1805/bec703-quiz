@@ -1,0 +1,146 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>BEC703 Module 2 Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<style>
+:root{
+  /* Layout: single reading column; module tabs on top, sticky score bar */
+  --bg:#f6f7f9; --surface:#ffffff; --fg:#17202b; --muted:#5b6675; --line:#dfe3ea;
+  --accent:#1f5fbf; --accent-soft:#e7effb; --ok:#1d7a4a; --ok-soft:#e5f4ec; --bad:#b3362d; --bad-soft:#fbeae8;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f141b; --surface:#171e27; --fg:#e6ebf2; --muted:#9aa6b6; --line:#2a3441;
+  --accent:#6ea2f0; --accent-soft:#1b2a40; --ok:#5fcf93; --ok-soft:#163026; --bad:#f08a80; --bad-soft:#3a1d1b; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f141b; --surface:#171e27; --fg:#e6ebf2; --muted:#9aa6b6; --line:#2a3441;
+  --accent:#6ea2f0; --accent-soft:#1b2a40; --ok:#5fcf93; --ok-soft:#163026; --bad:#f08a80; --bad-soft:#3a1d1b; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 var(--sans)}
+.wrap{max-width:760px;margin:0 auto;padding-block:20px 64px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.eyebrow{font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-size:clamp(24px,5vw,32px);line-height:1.2;margin:8px 0 4px;text-wrap:balance}
+.sub{color:var(--muted);margin:0}
+nav.mods{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 20px}
+nav.mods a{font:500 13px/1 var(--mono);text-decoration:none;color:var(--muted);border:1px solid var(--line);
+  padding:8px 11px;border-radius:999px;background:var(--surface)}
+nav.mods a:hover{color:var(--fg);border-color:var(--muted)}
+nav.mods a[aria-current="page"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:12px 0;margin:16px 0 8px;
+  display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;border-bottom:1px solid var(--line)}
+.score{font:600 15px/1 var(--mono);font-variant-numeric:tabular-nums}
+.track{flex:1 1 160px;height:6px;background:var(--line);border-radius:3px;overflow:hidden;min-width:0}
+.track i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.btn{font:500 13px/1 var(--sans);border:1px solid var(--line);background:var(--surface);color:var(--fg);
+  padding:9px 12px;border-radius:8px;cursor:pointer}
+.btn:hover{border-color:var(--muted)}
+.btn:focus-visible,.opt:focus-visible,nav.mods a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+ol.qs{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
+.qn{font:500 12px/1 var(--mono);color:var(--muted);letter-spacing:.06em}
+.qt{margin:8px 0 14px;font-weight:600}
+.opts{display:grid;gap:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;font:inherit;color:var(--fg);
+  background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;cursor:pointer}
+.opt:hover:not([disabled]){border-color:var(--accent)}
+.opt b{font:600 13px/1.6 var(--mono);color:var(--muted);flex:none}
+.opt span{min-width:0}
+.opt[disabled]{cursor:default}
+.opt.right{background:var(--ok-soft);border-color:var(--ok)}
+.opt.right b{color:var(--ok)}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.opt.wrong b{color:var(--bad)}
+.hintbtn{margin-top:10px;background:none;border:0;padding:0;color:var(--accent);font:500 13px var(--sans);cursor:pointer;text-decoration:underline}
+.hint{margin:8px 0 0;color:var(--muted);font-size:14px}
+.fb{margin-top:12px;padding:12px 14px;border-radius:8px;background:var(--accent-soft);font-size:15px}
+.fb strong{display:block;margin-bottom:2px}
+.fb.ok strong{color:var(--ok)} .fb.no strong{color:var(--bad)}
+.done{margin-top:20px;padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.done h2{margin:0 0 6px;font-size:20px}
+.next{display:inline-block;margin-top:10px;color:var(--accent);font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.card{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:var(--fg);background:var(--surface);
+  border:1px solid var(--line);border-radius:12px;padding:16px}
+.card:hover{border-color:var(--accent)}
+.card .t{font-weight:600;font-size:17px}
+.card .s{color:var(--muted);font-size:14px}
+footer{margin-top:32px;color:var(--muted);font-size:13px}
+@media (prefers-reduced-motion:reduce){.track i{transition:none}}
+</style></head><body><div class="wrap"><nav class="mods" aria-label="Modules"><a href="index.html">All</a><a href="module1.html">Module 1</a><a href="module2.html" aria-current="page">Module 2</a><a href="module3.html">Module 3</a><a href="module4.html">Module 4</a><a href="module5.html">Module 5</a></nav><div class="eyebrow">BEC703 · Wireless Communication · Module 2</div><h1>CDMA &amp; OFDM</h1><p class="sub">12 questions · source: Module 2 textbook, Ch. 5 &amp; 7. Pick an answer to see whether it is right and why.</p><div class="bar"><span class="score" id="score"></span><span class="track"><i id="fill"></i></span><button class="btn" id="reveal" type="button">Show all answers</button><button class="btn" id="reset" type="button">Start over</button></div><ol class="qs" id="qs"></ol><div class="done" id="done" hidden><h2>Module 2 complete</h2><p id="result"></p><a class="next" href="module3.html">Next: Module 3 →</a></div><footer>Questions built from your BEC703 module textbooks and answer booklet.</footer></div><script>
+const QS = [{"q": "Users 0 and 1 use codes c0 = [1, 1, 1, 1] and c1 = [1, −1, −1, 1]. When the composite signal is correlated with c0, what is the result?", "o": ["4a0", "4a1", "4(a0 + a1)", "0"], "a": 0, "e": "The composite is x = [(a0+a1), (a0−a1), (a0−a1), (a0+a1)]. Summing x·c0 gives 4a0. This works because c0 and c1 are orthogonal (r01 = 1 − 1 − 1 + 1 = 0)."}, {"q": "Spreading with a code of length N increases the bandwidth by N. Why does this NOT reduce spectral efficiency?", "o": ["The chips are transmitted at a lower power", "There are N orthogonal codes, so N users transmit in parallel over the same bandwidth", "The cyclic prefix compensates for it", "The bandwidth does not actually increase"], "a": 1, "e": "For a 1 kbps symbol and N = 4, the bandwidth grows from 1 kHz to 4 kHz. Because N orthogonal codes exist, N users share that bandwidth in parallel, so efficiency is preserved. This is why CDMA is called spread spectrum or wideband."}, {"q": "A maximum-length LFSR with D = 4 shift registers produces a PN sequence of what length, and which state does it never enter?", "o": ["16; the 1111 state", "15; the 0000 state", "8; the 1000 state", "15; the 1111 state"], "a": 1, "e": "A maximum-length LFSR passes through 2^D − 1 = 15 states. It must avoid all-zero, because once in 0000 it would stay there forever."}, {"q": "In the BPSK PN sequence of length 15, there are eight −1s and seven +1s. Which property is this?", "o": ["Run-length property", "Correlation property", "Balance property", "Orthogonality property"], "a": 2, "e": "Balance property: the counts of +1 and −1 differ by only one, as expected for noise-like random chips. Run-length (½ of runs have length 1, ¼ have length 2, …) and autocorrelation are the other two properties."}, {"q": "What is the normalised autocorrelation of a maximum-length PN sequence at any nonzero lag?", "o": ["1", "0 exactly", "−1/N", "−1"], "a": 2, "e": "It is 1 at lag 0 and −1/N at every other lag, which tends to 0 as N → ∞. For random spreading codes, the correlation at nonzero lags has mean 0 and variance 1/N, so the codes are approximately orthogonal."}, {"q": "In the 2-user CDMA SINR, SINR = P0 / (P1/N + σn²/N), the factor N is called:", "o": ["The frequency reuse factor", "The spreading gain (equal to the spreading length)", "The diversity order", "The rake length"], "a": 1, "e": "Despreading suppresses both interference and noise by N, which is the spreading gain. Because multi-user interference remains, CDMA is interference-limited. The same factor gives a jammer margin of N."}, {"q": "GSM uses a frequency reuse factor of 1/7. CDMA uses universal frequency reuse. What capacity gain does the textbook give?", "o": ["×2", "×N", "×7", "No gain"], "a": 2, "e": "Each hexagonal cell has 6 neighbours, so GSM can use only 1/7 of the bands per cell. CDMA suppresses adjacent-cell interference by N (graceful degradation), so every cell uses all bands (reuse factor 1). This gives about 7 times the spectral efficiency."}, {"q": "How does the CDMA rake receiver achieve multipath diversity over an L-tap channel?", "o": ["It uses L transmit antennas", "It correlates with delayed copies c0(n − v), v = 0…L−1, then combines the outputs with MRC, giving diversity order L", "It adds a cyclic prefix of length L", "It equalises using 1/H(f)"], "a": 1, "e": "Because r00(l) ≈ 0 for l ≠ 0, correlating with each delayed code extracts the path h(v). MRC combining then gives SNR = N·‖h‖²·P, like a receiver with L antennas. For CDMA, ISI becomes a benefit rather than a problem."}, {"q": "B = 1.024 MHz is split into N = 256 OFDM subcarriers. With Bc ≈ 250 kHz, what does each subcarrier experience?", "o": ["Frequency-selective fading, because 4 kHz > Bc", "Flat fading, because each subcarrier is 4 kHz << 250 kHz", "No fading at all", "Doppler fading only"], "a": 1, "h": "Compare B/N with Bc.", "e": "Each subcarrier is 1024 kHz / 256 = 4 kHz, far below Bc, so it sees flat fading with no ISI. This is the key benefit of multicarrier modulation. The single-carrier system (1.024 MHz > Bc) would suffer ISI."}, {"q": "What does a cyclic prefix of length Lc ≥ L − 1 achieve in OFDM?", "o": ["It reduces PAPR", "It removes inter-OFDM-symbol interference and turns linear convolution into circular convolution, so Y(k) = H(k)X(k)", "It corrects the carrier frequency offset", "It increases the data rate"], "a": 1, "e": "Copying the last Lc samples to the front makes the channel act as circular convolution. The FFT then gives N parallel flat-fading channels. The cost is overhead: for N = 256 and Lc = 32 (WiMAX), the loss is 32/288 = 11.1%."}, {"q": "What is the PAPR of an OFDM signal with N subcarriers carrying ±a BPSK symbols, compared with a single-carrier system?", "o": ["OFDM PAPR = N; single carrier = 1 (0 dB)", "Both are 1", "OFDM PAPR = 1/N; single carrier = N", "OFDM PAPR = √N; single carrier = 2"], "a": 0, "e": "The average power is a²/N, but when all symbols add coherently the peak is a², so PAPR = N, and it grows with N (as much as 10 dB for 512 subcarriers). High PAPR pushes the amplifier into nonlinearity, causing ICI and a higher BER. SC-FDMA reduces it."}, {"q": "What does a carrier frequency offset ε (normalised to the subcarrier spacing) cause in OFDM?", "o": ["ISI between OFDM symbols", "Loss of subcarrier orthogonality, causing inter-carrier interference (ICI) and a lower SINR", "A higher PAPR", "No effect if the CP is long enough"], "a": 1, "e": "The subcarriers overlap, so even a small offset (5% in the WiMAX example) breaks orthogonality and produces ICI. The cyclic prefix does not fix this."}];
+const L = "ABCD";
+const list = document.getElementById("qs");
+let answered = 0, correct = 0;
+function render(){
+  list.innerHTML = "";
+  answered = 0; correct = 0; update();
+  QS.forEach((q, i) => {
+    const li = document.createElement("li"); li.className = "q";
+    li.innerHTML = `<div class="qn">QUESTION ${i+1} OF ${QS.length}</div><p class="qt"></p><div class="opts"></div>`;
+    li.querySelector(".qt").textContent = q.q;
+    const box = li.querySelector(".opts");
+    q.o.forEach((t, j) => {
+      const b = document.createElement("button"); b.className = "opt"; b.type = "button"; b.id = `q${i}o${j}`;
+      b.innerHTML = `<b>${L[j]}</b><span></span>`; b.querySelector("span").textContent = t;
+      b.addEventListener("click", () => pick(li, q, j));
+      box.appendChild(b);
+    });
+    if (q.h){
+      const hb = document.createElement("button"); hb.className = "hintbtn"; hb.type = "button"; hb.textContent = "Show hint";
+      hb.addEventListener("click", () => { const p = document.createElement("p"); p.className = "hint"; p.textContent = "Hint: " + q.h; hb.replaceWith(p); });
+      li.appendChild(hb);
+    }
+    list.appendChild(li);
+  });
+  document.getElementById("done").hidden = true;
+}
+function pick(li, q, j){
+  const btns = li.querySelectorAll(".opt");
+  if (btns[0].disabled) return;
+  btns.forEach(b => b.disabled = true);
+  btns[q.a].classList.add("right");
+  const ok = j === q.a;
+  if (!ok) btns[j].classList.add("wrong");
+  answered++; if (ok) correct++;
+  const hb = li.querySelector(".hintbtn"); if (hb) hb.remove();
+  const fb = document.createElement("div"); fb.className = "fb " + (ok ? "ok" : "no");
+  fb.innerHTML = `<strong></strong><span></span>`;
+  fb.querySelector("strong").textContent = ok ? "Correct." : `Not quite. The answer is ${L[q.a]}.`;
+  fb.querySelector("span").textContent = q.e;
+  li.appendChild(fb);
+  update();
+}
+function update(){
+  document.getElementById("score").textContent = `${correct} / ${answered} correct · ${QS.length - answered} left`;
+  document.getElementById("fill").style.width = (answered / QS.length * 100) + "%";
+  if (answered === QS.length){
+    const d = document.getElementById("done"); d.hidden = false;
+    const pct = Math.round(correct / QS.length * 100);
+    document.getElementById("result").textContent = `You scored ${correct} out of ${QS.length} (${pct}%).`;
+  }
+}
+function revealAll(){
+  document.querySelectorAll(".q").forEach((li, i) => {
+    const btns = li.querySelectorAll(".opt");
+    if (!btns[0].disabled){
+      btns.forEach(b => b.disabled = true);
+      btns[QS[i].a].classList.add("right");
+      const hb = li.querySelector(".hintbtn"); if (hb) hb.remove();
+      const fb = document.createElement("div"); fb.className = "fb";
+      fb.innerHTML = `<strong></strong><span></span>`;
+      fb.querySelector("strong").textContent = `Answer: ${L[QS[i].a]}`;
+      fb.querySelector("span").textContent = QS[i].e;
+      li.appendChild(fb);
+    }
+  });
+}
+document.getElementById("reset").addEventListener("click", () => { render(); window.scrollTo(0, 0); });
+document.getElementById("reveal").addEventListener("click", revealAll);
+render();
+</script></body></html>

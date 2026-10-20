@@ -1,0 +1,146 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>BEC703 Module 1 Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<style>
+:root{
+  /* Layout: single reading column; module tabs on top, sticky score bar */
+  --bg:#f6f7f9; --surface:#ffffff; --fg:#17202b; --muted:#5b6675; --line:#dfe3ea;
+  --accent:#1f5fbf; --accent-soft:#e7effb; --ok:#1d7a4a; --ok-soft:#e5f4ec; --bad:#b3362d; --bad-soft:#fbeae8;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f141b; --surface:#171e27; --fg:#e6ebf2; --muted:#9aa6b6; --line:#2a3441;
+  --accent:#6ea2f0; --accent-soft:#1b2a40; --ok:#5fcf93; --ok-soft:#163026; --bad:#f08a80; --bad-soft:#3a1d1b; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f141b; --surface:#171e27; --fg:#e6ebf2; --muted:#9aa6b6; --line:#2a3441;
+  --accent:#6ea2f0; --accent-soft:#1b2a40; --ok:#5fcf93; --ok-soft:#163026; --bad:#f08a80; --bad-soft:#3a1d1b; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 var(--sans)}
+.wrap{max-width:760px;margin:0 auto;padding-block:20px 64px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.eyebrow{font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-size:clamp(24px,5vw,32px);line-height:1.2;margin:8px 0 4px;text-wrap:balance}
+.sub{color:var(--muted);margin:0}
+nav.mods{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 20px}
+nav.mods a{font:500 13px/1 var(--mono);text-decoration:none;color:var(--muted);border:1px solid var(--line);
+  padding:8px 11px;border-radius:999px;background:var(--surface)}
+nav.mods a:hover{color:var(--fg);border-color:var(--muted)}
+nav.mods a[aria-current="page"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:12px 0;margin:16px 0 8px;
+  display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;border-bottom:1px solid var(--line)}
+.score{font:600 15px/1 var(--mono);font-variant-numeric:tabular-nums}
+.track{flex:1 1 160px;height:6px;background:var(--line);border-radius:3px;overflow:hidden;min-width:0}
+.track i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.btn{font:500 13px/1 var(--sans);border:1px solid var(--line);background:var(--surface);color:var(--fg);
+  padding:9px 12px;border-radius:8px;cursor:pointer}
+.btn:hover{border-color:var(--muted)}
+.btn:focus-visible,.opt:focus-visible,nav.mods a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+ol.qs{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
+.qn{font:500 12px/1 var(--mono);color:var(--muted);letter-spacing:.06em}
+.qt{margin:8px 0 14px;font-weight:600}
+.opts{display:grid;gap:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;font:inherit;color:var(--fg);
+  background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;cursor:pointer}
+.opt:hover:not([disabled]){border-color:var(--accent)}
+.opt b{font:600 13px/1.6 var(--mono);color:var(--muted);flex:none}
+.opt span{min-width:0}
+.opt[disabled]{cursor:default}
+.opt.right{background:var(--ok-soft);border-color:var(--ok)}
+.opt.right b{color:var(--ok)}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.opt.wrong b{color:var(--bad)}
+.hintbtn{margin-top:10px;background:none;border:0;padding:0;color:var(--accent);font:500 13px var(--sans);cursor:pointer;text-decoration:underline}
+.hint{margin:8px 0 0;color:var(--muted);font-size:14px}
+.fb{margin-top:12px;padding:12px 14px;border-radius:8px;background:var(--accent-soft);font-size:15px}
+.fb strong{display:block;margin-bottom:2px}
+.fb.ok strong{color:var(--ok)} .fb.no strong{color:var(--bad)}
+.done{margin-top:20px;padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.done h2{margin:0 0 6px;font-size:20px}
+.next{display:inline-block;margin-top:10px;color:var(--accent);font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.card{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:var(--fg);background:var(--surface);
+  border:1px solid var(--line);border-radius:12px;padding:16px}
+.card:hover{border-color:var(--accent)}
+.card .t{font-weight:600;font-size:17px}
+.card .s{color:var(--muted);font-size:14px}
+footer{margin-top:32px;color:var(--muted);font-size:13px}
+@media (prefers-reduced-motion:reduce){.track i{transition:none}}
+</style></head><body><div class="wrap"><nav class="mods" aria-label="Modules"><a href="index.html">All</a><a href="module1.html" aria-current="page">Module 1</a><a href="module2.html">Module 2</a><a href="module3.html">Module 3</a><a href="module4.html">Module 4</a><a href="module5.html">Module 5</a></nav><div class="eyebrow">BEC703 · Wireless Communication · Module 1</div><h1>Wireless Channel &amp; Rayleigh Fading</h1><p class="sub">12 questions · source: Module 1 textbook, Ch. 3 &amp; 4. Pick an answer to see whether it is right and why.</p><div class="bar"><span class="score" id="score"></span><span class="track"><i id="fill"></i></span><button class="btn" id="reveal" type="button">Show all answers</button><button class="btn" id="reset" type="button">Start over</button></div><ol class="qs" id="qs"></ol><div class="done" id="done" hidden><h2>Module 1 complete</h2><p id="result"></p><a class="next" href="module2.html">Next: Module 2 →</a></div><footer>Questions built from your BEC703 module textbooks and answer booklet.</footer></div><script>
+const QS = [{"q": "Strong destructive interference between multipath copies at the receiver, causing a severe drop in SNR, is called:", "o": ["Doppler spread", "A deep fade", "Inter-symbol interference", "Shadowing"], "a": 1, "e": "Multipath interference causes the received power to vary, which is called fading. Strong destructive interference is a deep fade and can temporarily break the link. Fading is the main difference between wireless and wireline channels."}, {"q": "In the baseband model yb(t) = Σ ai e^(−j2πfcτi) sb(t − τi), which per-path parameter appears that is NOT in the passband channel model?", "o": ["The attenuation ai", "The delay τi", "The phase factor e^(−j2πfcτi)", "The noise n(t)"], "a": 2, "e": "Each baseband path has three parameters: attenuation ai, delay τi, and the phase factor e^(−j2πfcτi). The phase comes from the carrier being delayed along that path."}, {"q": "Under the narrowband assumption (delay spread Tm << symbol time T), the received baseband signal becomes:", "o": ["yb(t) = h·sb(t), with h = Σ ai e^(−j2πfcτi)", "yb(t) = sb(t) * h(t), with full ISI", "yb(t) = sb(t − Tm)", "yb(t) = 0"], "a": 0, "e": "For a narrowband signal, sb(t − τi) ≈ sb(t), so all the paths collapse into a single complex fading coefficient h = ae^(jφ). This is the flat-fading channel. The approximation does not hold for wideband systems such as CDMA."}, {"q": "In the Rayleigh fading model, the amplitude a and phase φ of h have which distributions?", "o": ["a is Gaussian; φ is Rayleigh", "a is Rayleigh, fA(a) = 2a·e^(−a²); φ is uniform on (−π, π]; a and φ are independent", "a is exponential; φ is Gaussian", "a is uniform; φ is Rayleigh; they are dependent"], "a": 1, "h": "Think of the circular scatter plot of h.", "e": "X and Y are i.i.d. N(0, ½) by the central limit theorem. Changing to polar form gives fA,Φ(a, φ) = (a/π)e^(−a²) = fA(a)·fΦ(φ), so a is Rayleigh, φ is uniform, and the two are independent. E{|h|²} = 1."}, {"q": "For a Rayleigh channel with E{a²} = 1, what is the PDF of the power gain g = a²?", "o": ["fG(g) = 2g·e^(−g²)", "fG(g) = e^(−g), g ≥ 0", "fG(g) = 1/(2π)", "fG(g) = g·e^(−g)"], "a": 1, "e": "Transforming the variable gives fG(g) = fA(√g)/(2√g) = 2√g·e^(−g)/(2√g) = e^(−g). The power gain is exponentially distributed with mean 1."}, {"q": "With transmit power Pt = 100 (20 dB), what is the probability that the received power exceeds 50 (≈17 dB) in a Rayleigh channel?", "o": ["e^(−0.5) ≈ 0.61", "1 − e^(−0.5) ≈ 0.39", "0.5", "e^(−2) ≈ 0.14"], "a": 0, "h": "Convert to a condition on g, then integrate e^(−g).", "e": "Pr = g·Pt > 50 means g > 0.5. Then P(g > 0.5) = ∫ e^(−g) dg from 0.5 to ∞ = e^(−0.5) ≈ 0.61. This follows the same method as Example 3.4."}, {"q": "In Example 4.2 the maximum delay spread is 5 μs, but the RMS delay spread is only ≈ 0.857 μs. Why is the RMS value considered more realistic?", "o": ["It ignores the first path", "It weights each delay by its fraction of power, so weak paths contribute little", "It uses absolute delays rather than differences", "It is always exactly half the maximum delay spread"], "a": 1, "e": "σRMS = √(Σ gi(τi − τ̄)² / Σ gi). Because each delay is weighted by its power, the weak −20 dB path at 0 μs hardly counts, so the RMS value reflects where the power really arrives."}, {"q": "A mobile far from the base station receives only a single path with a large delay τ0. What is the delay spread?", "o": ["τ0", "2τ0", "0", "It cannot be determined"], "a": 2, "e": "The delay spread τL−1 − τ0 depends only on the difference between the first and last paths, not on the absolute delays. With one path, it is τ0 − τ0 = 0. A richer scattering environment gives a larger delay spread."}, {"q": "Using Bc = 1/(2·Td), what is the coherence bandwidth for a typical outdoor delay spread of 2 μs, and what is the condition for ISI?", "o": ["Bc = 500 kHz; ISI when Bs ≤ Bc", "Bc = 250 kHz; ISI (frequency-selective fading) when Bs ≥ Bc", "Bc = 250 kHz; ISI when Bs ≤ Bc", "Bc = 2 MHz; ISI is independent of Bc"], "a": 1, "e": "Bc = 1/(2 × 2 μs) = 250 kHz. ISI occurs when Td ≥ Ts/2, which is equivalent to Bs ≥ Bc, the same condition as frequency-selective fading. So GSM (200 kHz) sees flat fading, while WCDMA (5 MHz) sees frequency-selective fading."}, {"q": "A car moves at 26.8 m/s (60 mph) at θ = 30° to the line joining it to the base station, with fc = 1850 MHz. What is the Doppler shift?", "o": ["≈ 165 Hz, and the perceived frequency is lower", "≈ 143 Hz, and the perceived frequency is higher", "≈ 82 Hz, and the perceived frequency is higher", "0 Hz"], "a": 1, "h": "fd = (v/c)·cosθ·fc", "e": "fd = (v/c)·cosθ·fc = (26.8 / 3×10⁸) × cos30° × 1850×10⁶ ≈ 143 Hz. Moving toward the base station (cosθ > 0) raises the perceived frequency. At θ = 90°, the Doppler shift is zero."}, {"q": "For the same car (fd,max ≈ 165 Hz), what is the coherence time?", "o": ["Tc = 1/(2·165) ≈ 3 ms", "Tc = 1/(2Bd) = 1/(2 × 330) ≈ 1.5 ms", "Tc = 1/330 ≈ 3 μs", "Tc = 165 ms"], "a": 1, "e": "The Doppler spread is Bd = 2·fd,max = 330 Hz, so Tc = 1/(2Bd) = 1/(4·fd,max) ≈ 1.5 ms. At vehicular speeds near 2 GHz, coherence time is on the order of milliseconds."}, {"q": "What is a channel that is both time-selective (because of Doppler) and frequency-selective (because of delay spread) called?", "o": ["A flat-fading channel", "An AWGN channel", "A doubly selective channel", "A quasi-static channel"], "a": 2, "e": "Time selectivity means the attenuation differs at different instants, caused by Doppler. Frequency selectivity means it differs across frequency bands, caused by delay spread. A channel with both is doubly selective."}];
+const L = "ABCD";
+const list = document.getElementById("qs");
+let answered = 0, correct = 0;
+function render(){
+  list.innerHTML = "";
+  answered = 0; correct = 0; update();
+  QS.forEach((q, i) => {
+    const li = document.createElement("li"); li.className = "q";
+    li.innerHTML = `<div class="qn">QUESTION ${i+1} OF ${QS.length}</div><p class="qt"></p><div class="opts"></div>`;
+    li.querySelector(".qt").textContent = q.q;
+    const box = li.querySelector(".opts");
+    q.o.forEach((t, j) => {
+      const b = document.createElement("button"); b.className = "opt"; b.type = "button"; b.id = `q${i}o${j}`;
+      b.innerHTML = `<b>${L[j]}</b><span></span>`; b.querySelector("span").textContent = t;
+      b.addEventListener("click", () => pick(li, q, j));
+      box.appendChild(b);
+    });
+    if (q.h){
+      const hb = document.createElement("button"); hb.className = "hintbtn"; hb.type = "button"; hb.textContent = "Show hint";
+      hb.addEventListener("click", () => { const p = document.createElement("p"); p.className = "hint"; p.textContent = "Hint: " + q.h; hb.replaceWith(p); });
+      li.appendChild(hb);
+    }
+    list.appendChild(li);
+  });
+  document.getElementById("done").hidden = true;
+}
+function pick(li, q, j){
+  const btns = li.querySelectorAll(".opt");
+  if (btns[0].disabled) return;
+  btns.forEach(b => b.disabled = true);
+  btns[q.a].classList.add("right");
+  const ok = j === q.a;
+  if (!ok) btns[j].classList.add("wrong");
+  answered++; if (ok) correct++;
+  const hb = li.querySelector(".hintbtn"); if (hb) hb.remove();
+  const fb = document.createElement("div"); fb.className = "fb " + (ok ? "ok" : "no");
+  fb.innerHTML = `<strong></strong><span></span>`;
+  fb.querySelector("strong").textContent = ok ? "Correct." : `Not quite. The answer is ${L[q.a]}.`;
+  fb.querySelector("span").textContent = q.e;
+  li.appendChild(fb);
+  update();
+}
+function update(){
+  document.getElementById("score").textContent = `${correct} / ${answered} correct · ${QS.length - answered} left`;
+  document.getElementById("fill").style.width = (answered / QS.length * 100) + "%";
+  if (answered === QS.length){
+    const d = document.getElementById("done"); d.hidden = false;
+    const pct = Math.round(correct / QS.length * 100);
+    document.getElementById("result").textContent = `You scored ${correct} out of ${QS.length} (${pct}%).`;
+  }
+}
+function revealAll(){
+  document.querySelectorAll(".q").forEach((li, i) => {
+    const btns = li.querySelectorAll(".opt");
+    if (!btns[0].disabled){
+      btns.forEach(b => b.disabled = true);
+      btns[QS[i].a].classList.add("right");
+      const hb = li.querySelector(".hintbtn"); if (hb) hb.remove();
+      const fb = document.createElement("div"); fb.className = "fb";
+      fb.innerHTML = `<strong></strong><span></span>`;
+      fb.querySelector("strong").textContent = `Answer: ${L[QS[i].a]}`;
+      fb.querySelector("span").textContent = QS[i].e;
+      li.appendChild(fb);
+    }
+  });
+}
+document.getElementById("reset").addEventListener("click", () => { render(); window.scrollTo(0, 0); });
+document.getElementById("reveal").addEventListener("click", revealAll);
+render();
+</script></body></html>
